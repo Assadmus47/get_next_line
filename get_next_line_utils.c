@@ -10,34 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
+#include <stdio.h>
 
-int	problem_argc(int argc);
-
-int	problem_fd(int fd);
-
-int	main(int argc, char **argv)
+void test_static(void)
 {
-	int		fd;
-	int		n;
-	char	buffer[1];
+	static int a = 0 ;
+	printf("%d \n",a);
+	a++;
+}
 
-	if (!problem_argc(argc))
-		return (1);
-	fd = open(argv[1], O_RDONLY);
-	if (! problem_fd(fd))
-		return (1);
-	n = 1;
-	while (n != 0)
-	{
-		n = read(fd, buffer, sizeof(buffer));
-		if (write(1, buffer, n) == -1)
-		{
-			close(fd);
-			return (1);
-		}
-	}
-	close(fd);
-	return (0);
+int	main(void)
+{
+	test_static();
+	test_static();
+	test_static();
+	test_static();
 }
