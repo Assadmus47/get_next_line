@@ -22,7 +22,7 @@ char *get_next_line(int fd)
 		return (NULL);
 	i = 0;
 	n = 1;
-	if (buffer[0] != '\n')
+	if (buffer[0])
 		write(1, buffer, n);
 	while (n != 0)
 	{
@@ -40,7 +40,6 @@ char *get_next_line(int fd)
 		i++;
 	}
 	write(1, "\n", 1);
-	//printf("\n --------------- i : [%d]---------- \n",i);
 	return (ret);
 }
 
