@@ -1,14 +1,13 @@
 
 NAME = give_me_next
 
-SRC = test.c
+SRC = test.c get_next_line_utils.c get_next_line.c
 
 CC = cc
 
-test:
+test: 
 	$(CC) $(SRC) -o $(NAME)
-	./$(NAME).exe a.txt
-
+	./$(NAME) file.txt
 clean:
 	rm $(NAME).exe
 

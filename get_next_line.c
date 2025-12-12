@@ -3,18 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 11:26:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/12/06 11:26:47 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/12 14:02:28 by mkacemi           #+#    #+#             */
+/*   Updated: 2025/12/12 14:02:28 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
+#include "get_next_line.h"
 
+char *get_next_line(int fd)
+{
+	int		n;
+	char	*ret;
+	int		i;
+	static char	buffer[1];
 
-int	problem_fd(int fd)
+	ret = malloc(sizeof(char));
+	if (problem_fd(fd))
+		return (NULL);
+	i = 0;
+	n = 1;
+	//Target
+	if (buffer[0])
+		write(1, buffer, n);
+	while (n != 0)
+	{
+		n = read(fd, buffer, sizeof(buffer));
+		if (buffer[0] == '\n')
+		{
+			n = read(fd, buffer, sizeof(buffer));
+			break ;
+		}
+		if (write(1, buffer, n) == -1)
+		{
+			close(fd);
+			return (NULL);
+		}
+		i++;
+	}
+	write(1, "\n", 1);
+	return (ret);
+}
+
+/* int	problem_fd(int fd)
 {
 	return (fd < 0 || write(fd, "", 0) == -1);
 }
@@ -40,4 +72,4 @@ int	main(int argc, char **argv)
 	}
 	close(fd);
 	return (0);
-}
+} */

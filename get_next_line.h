@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 14:02:09 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/12 14:02:09 by mkacemi          ###   ########.fr       */
+/*   Created: 2025/12/12 14:02:17 by mkacemi           #+#    #+#             */
+/*   Updated: 2025/12/12 14:02:17 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int	problem_fd(int fd)
-{
-	return (fd < 0 || write(fd, "", 0) == -1);
-}
+# include <fcntl.h> 
+# include <unistd.h>
+# include <stdlib.h>
+#include <stdio.h>
+
+char	*get_next_line(int fd);
+int     problem_fd(int fd);
+
+#endif
