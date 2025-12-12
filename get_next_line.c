@@ -20,15 +20,15 @@ char *get_next_line(int fd)
 	static char	buffer[1];
 
 	ret = malloc(sizeof(char));
-	if (problem_fd(fd))
+	if (!problem_fd(fd))
 		return (NULL);
 	i = 0;
 	n = 1;
-	//Target
-	if (buffer[0])
+	if (buffer[0] != '\n')
 		write(1, buffer, n);
 	while (n != 0)
 	{
+
 		n = read(fd, buffer, sizeof(buffer));
 		if (buffer[0] == '\n')
 		{
@@ -43,6 +43,7 @@ char *get_next_line(int fd)
 		i++;
 	}
 	write(1, "\n", 1);
+	//printf("\n --------------- i : [%d]---------- \n",i);
 	return (ret);
 }
 

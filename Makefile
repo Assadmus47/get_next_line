@@ -7,7 +7,7 @@ CC = cc
 
 test: 
 	$(CC) $(SRC) -o $(NAME)
-	./$(NAME) file.txt
+	./$(NAME) a
 clean:
 	rm $(NAME).exe
 
