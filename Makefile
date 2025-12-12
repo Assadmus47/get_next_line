@@ -9,9 +9,14 @@ test:
 	$(CC) $(SRC) -o $(NAME)
 	./$(NAME) a
 clean:
-	rm $(NAME).exe
+	rm $(NAME)
 
 re:
 	test clean
+
+git:
+	git add .
+	git commit -m "$(msg)"
+	git push
 
 .PHONY:	test clean re
