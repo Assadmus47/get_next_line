@@ -3,7 +3,7 @@ NAME = give_me_next
 
 SRC = test.c get_next_line_utils.c get_next_line.c
 
-CC = cc
+CC = cc -g -O0
 
 test: 
 	$(CC) $(SRC) -o $(NAME)
