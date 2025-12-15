@@ -24,7 +24,7 @@
 
 char	*get_next_line(int fd);
 int     problem_fd(int fd);
-char	*ft_strjoin(char *first, char *second);
-//size_t  ft_strlen(char *str);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
