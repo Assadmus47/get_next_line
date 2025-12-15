@@ -6,7 +6,7 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/15 13:30:27 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/15 14:03:58 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	get_next_line(fd);
 	//printf("salam");
+	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
 	//get_next_line(fd);
 	//get_next_line(fd);
 	//get_next_line(fd);

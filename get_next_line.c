@@ -18,6 +18,7 @@ char *get_next_line_write(int fd)
 	char	*ret;
 	int		i;
 	static char	buffer[BUFFER_SIZE];
+	static char	buffer[BUFFER_SIZE];
 
 	ret = malloc(sizeof(char));
 	if (!problem_fd(fd))
@@ -62,9 +63,9 @@ char *get_next_line(int fd)
 {
 	char	*ret;
 	int		i;
-	static char	buffer[1];
+	static char	buffer[BUFFER_SIZE];
+	int		n;
 
-	ret = malloc(sizeof(char));
 	if (!problem_fd(fd))
 		return (NULL);
 	i = 0;
