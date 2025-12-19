@@ -12,11 +12,12 @@
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+char *get_next_line_write(int fd)
 {
 	int		n;
 	char	*ret;
 	int		i;
+	static char	buffer[BUFFER_SIZE];
 	static char	buffer[BUFFER_SIZE];
 
 	ret = malloc(sizeof(char));
@@ -47,25 +48,18 @@ char	*get_next_line(int fd)
 	return (ret);
 }
 
-/* int	char_in(char *str)
+char *get_next_line(int fd)
 {
-	int	i;
+	int		n;
+	char	*ret;
+	int		i;
+	static char	buffer[BUFFER_SIZE];
 
-	i = 0;
-	while (i < BUFFER_SIZE)
-	{
-		if (str[i] == '\n')
-		{
-			i++;
-			*str = '\0';
-			return (i);
-		}		
-	}
-	return (0);
+	
 }
- */
 
-/* char *get_next_line(int fd)
+/*
+char *get_next_line(int fd)
 {
 	char	*ret;
 	int		i;
@@ -76,16 +70,29 @@ char	*get_next_line(int fd)
 		return (NULL);
 	i = 0;
 	n = 1;
-	n = read(fd, buffer, BUFFER_SIZE);
-	while (!char_in(buffer))
+	if (buffer[0] != '\n')
+		write(1, buffer, n);
+	while (n != 0)
 	{
-		ret = buffer;
-		n = read(fd, buffer, BUFFER_SIZE);
-		ft_strjoin(ret ,buffer);
+
+		n = read(fd, buffer, sizeof(buffer));
+		if (buffer[0] == '\n')
+		{
+			n = read(fd, buffer, sizeof(buffer));
+			break ;
+		}
+		if (write(1, buffer, n) == -1)
+		{
+			close(fd);
+			return (NULL);
+		}
+		i++;
 	}
-
-} */
-
+	write(1, "\n", 1);
+	free(ret);
+	return (ret);
+}
+*/
 /* int	problem_fd(int fd)
 {
 	return (fd < 0 || write(fd, "", 0) == -1);
