@@ -6,7 +6,7 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/19 23:36:21 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/20 00:05:00 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_substr(char const *s, int *i)
 		lens++;
 		j++;
 	}	
-	sub = malloc((sizeof(char) * (lens + 1)));
+	sub = malloc((sizeof(char) * (lens + 2)));
 	if (!sub)
 		return (NULL);
 	j = 0;
@@ -39,19 +39,38 @@ char	*ft_substr(char const *s, int *i)
 		j++;
 	}
 	(*i)++;
-	//sub[j] = '\0';
+	sub[j++] = '\n';
+	sub[j] = '\0';
 	return (sub);
+}
+
+
+
+int	back_slach_in(char *s, int *j)
+{
+	int	i;
+
+	i = *j;
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			return (1);
+		s++;
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	int fd;
 	int	i=0;
-	static char	buffer[BUFFER_SIZE];
+	static char	buffer[4];
 
 	fd = open(argv[1], O_RDONLY);
 	read(fd, buffer, sizeof(buffer));
-	//printf("%s \n", buffer);
+	printf("%d",back_slach_in(buffer, &i));
+	
+	/* //printf("%s \n", buffer);
 	printf("phrase 1 %s\n",ft_substr(buffer, &i));
 	//printf("%d\n",i);
 	//printf("%c",buffer[i]);
@@ -59,6 +78,6 @@ int	main(int argc, char **argv)
 	printf("phrase 2 %s\n",ft_substr(buffer, &i));
 	printf("phrase 3 %s\n",ft_substr(buffer, &i));
 	printf("phrase 4 %s\n",ft_substr(buffer, &i));
-	printf("phrase 5 %s\n",ft_substr(buffer, &i));
+	printf("phrase 5 %s\n",ft_substr(buffer, &i)); */
 	return (0);
 }
