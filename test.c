@@ -6,16 +6,19 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/21 00:27:10 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/21 22:06:04 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr(char  *s, int *i)
+
+
+
+char	*ft_substr(char  *s, size_t *i)
 {
-	int	j;
-	int	lens;
+	size_t	j;
+	size_t	lens;
 	char	*sub;
 
 	if (!s)
@@ -44,9 +47,9 @@ char	*ft_substr(char  *s, int *i)
 	return (sub);
 }
 
-static size_t	ft_strlen(const char *str)
+static size_t	ft_strlen(char *str)
 {
-	int	i;
+	size_t	i;
 	
 	i = 0;
 	while (str[i])
@@ -55,9 +58,9 @@ static size_t	ft_strlen(const char *str)
 }
 
 
-int	back_slach_in(char *s, int *j)
+int	back_slach_in(char *s, size_t *j)
 {
-	int	i;
+	size_t	i;
 
 	i = *j;
 	while (s[i])
@@ -71,7 +74,7 @@ int	back_slach_in(char *s, int *j)
 
 
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src)
 {
 	size_t	i;
 	size_t	src_taille;
@@ -91,7 +94,7 @@ char	*ft_strdup(const char *src)
 	return (dest);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char  *s2)
 {
 	char	*new_str;
 	size_t	len;
@@ -115,31 +118,68 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new_str);
 }
 
+char *get_next_line(int fd)
+{
+	size_t			i;
+	char 			*temp;
+	char 			*str;
+	static char		buffer[BUFFER_SIZE + 1];
+
+	i = 0;
+	buffer[BUFFER_SIZE] = 0;
+	if (fd < 0)
+		return (NULL);
+	if (read(fd, buffer, BUFFER_SIZE) == -1)
+		return (NULL);
+	if (back_slach_in(buffer, &i))
+		return (ft_substr(buffer, &i));
+	else
+	{
+		str = ft_strdup(buffer);
+		while (!back_slach_in(str, &i))
+		{
+			temp = ft_strdup(buffer);
+			if (read(fd, buffer, BUFFER_SIZE) == -1)
+				return (NULL);
+			str = ft_strjoin(str, buffer);
+			j++;
+		}
+	}
+	return (ft_substr(str, &i));
+}
+
 
 int	main(int argc, char **argv)
 {
 	int fd;
-	int	i=0;
-	char *temp;
-	static char	buffer[3];
+	//har *temp;
+	//static char	buffer[BUFFER_SIZE + 1];
+	//size_t i = 0;
 
+	//buffer[BUFFER_SIZE] = 0;
 	fd = open(argv[1], O_RDONLY);
-	read(fd, buffer, sizeof(buffer));
-	printf("before stjoin : %s|\n",buffer);
-	printf("%d \n",back_slach_in(buffer, &i));
-	temp = ft_strdup(buffer);
-	read(fd, buffer, sizeof(buffer));
-	temp = ft_strjoin(temp, buffer);
-	printf("fqter strjoin : %s|\n",temp);
-	printf("%d",back_slach_in(temp, &i));
-	/* //printf("%s \n", buffer);
+	//read(fd, buffer, BUFFER_SIZE);
+	//printf("%s \n", buffer);
+	printf("p %s\n", get_next_line(fd));
+	//printf("p %s\n", get_next_line(fd));
+/* 	buffer[BUFFER_SIZE] = 0;
+	read(fd, buffer, BUFFER_SIZE);
+	printf("%s \n", buffer);
 	printf("phrase 1 %s\n",ft_substr(buffer, &i));
-	//printf("%d\n",i);
-	//printf("%c",buffer[i]);
-	//read(fd, buffer, sizeof(buffer));
-	printf("phrase 2 %s\n",ft_substr(buffer, &i));
-	printf("phrase 3 %s\n",ft_substr(buffer, &i));
-	printf("phrase 4 %s\n",ft_substr(buffer, &i));
-	printf("phrase 5 %s\n",ft_substr(buffer, &i)); */
+	printf("back slach in : ");
+	printf(back_slach_in(buffer, &i) ? "yes\n" : "no\n");
+	temp = ft_strdup(buffer);
+	read(fd, buffer,  BUFFER_SIZE);
+	printf("temp : %s \n", temp);
+	printf("buffer : %s\n", buffer);
+	temp = ft_strjoin(temp, buffer);
+	printf("temp : %s \n", temp);
+	//read(fd, buffer, BUFFER_SIZE);
+	i = 0;
+	printf("phrase 2 %s\n",ft_substr(temp, &i)); */
+	//printf("phrase 3 %s\n",ft_substr(buffer, &i));
+	//printf("phrase 4 %s\n",ft_substr(buffer, &i));
+	//printf("phrase 5 %s\n",ft_substr(buffer, &i)); 
+
 	return (0);
 }
