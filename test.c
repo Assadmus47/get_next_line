@@ -6,16 +6,42 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/21 22:06:04 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/21 22:26:49 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+static size_t	ft_strlen(char *str)
+{
+	size_t	i;
+	
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
+char	*ft_substr(char  *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	lens;
+	char	*sub;
 
+	if (!s)
+		return (NULL);
+	lens = ft_strlen(s);
+	sub = malloc((sizeof(char) * (len + 1)));
+	if (!sub)
+		return (NULL);
+	i = 0;
+	while (i < len)
+		sub[i++] = s[start++];
+	sub[i] = '\0';
+	return (sub);
+}
 
-char	*ft_substr(char  *s, size_t *i)
+char	*ft_strcut(char  *s, size_t *i)
 {
 	size_t	j;
 	size_t	lens;
@@ -47,17 +73,6 @@ char	*ft_substr(char  *s, size_t *i)
 	return (sub);
 }
 
-static size_t	ft_strlen(char *str)
-{
-	size_t	i;
-	
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-
 int	back_slach_in(char *s, size_t *j)
 {
 	size_t	i;
@@ -71,8 +86,6 @@ int	back_slach_in(char *s, size_t *j)
 	}
 	return (0);
 }
-
-
 
 char	*ft_strdup(char *src)
 {
@@ -127,12 +140,12 @@ char *get_next_line(int fd)
 
 	i = 0;
 	buffer[BUFFER_SIZE] = 0;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (read(fd, buffer, BUFFER_SIZE) == -1)
 		return (NULL);
 	if (back_slach_in(buffer, &i))
-		return (ft_substr(buffer, &i));
+		return (ft_strcut(buffer, &i));
 	else
 	{
 		str = ft_strdup(buffer);
@@ -142,10 +155,9 @@ char *get_next_line(int fd)
 			if (read(fd, buffer, BUFFER_SIZE) == -1)
 				return (NULL);
 			str = ft_strjoin(str, buffer);
-			j++;
 		}
 	}
-	return (ft_substr(str, &i));
+	return (ft_strcut(str, &i));
 }
 
 
@@ -159,9 +171,14 @@ int	main(int argc, char **argv)
 	//buffer[BUFFER_SIZE] = 0;
 	fd = open(argv[1], O_RDONLY);
 	//read(fd, buffer, BUFFER_SIZE);
-	//printf("%s \n", buffer);
+	/* printf("----- \n");
+	
+	printf("%s \n", buffer);
+	read(fd, buffer, BUFFER_SIZE);
+	printf("%s \n", buffer); */
+
 	printf("p %s\n", get_next_line(fd));
-	//printf("p %s\n", get_next_line(fd));
+	printf("p %s\n", get_next_line(fd));
 /* 	buffer[BUFFER_SIZE] = 0;
 	read(fd, buffer, BUFFER_SIZE);
 	printf("%s \n", buffer);
