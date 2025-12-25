@@ -6,7 +6,7 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/25 15:59:32 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/25 18:06:17 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*ft_strcut(char  *s, size_t *i)
 
 	if (!s)
 		return (NULL);
+	//s[BUFFER_SIZE + 1] = 1;
 	j = *i;
 	lens = 0;
 	while (s[j] != '\n')
@@ -157,10 +158,13 @@ char *get_next_line(int fd)
 
 	i = 0;
 	buffer[BUFFER_SIZE] = 0;
+	printf("strlen %zu \n",ft_strlen(buffer));
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!back_slach_in(buffer, &i))
+	//if (buffer[BUFFER_SIZE + 1] != 1)
 	{
+		//printf("[buffer]\n",buffer);
 		if (read(fd, buffer, BUFFER_SIZE) == -1)
 			return (NULL);
 	}
@@ -175,8 +179,49 @@ char *get_next_line(int fd)
 		{
 			temp = ft_strdup(buffer);
 			if (read(fd, buffer, BUFFER_SIZE) == -1)
-				return (NULL);
+			return (NULL);
+			//printf("avant str join : str : %s buffer : %s \n", str, buffer);
 			str = ft_strjoin(str, buffer);
+			//printf("apres str join : str : %s buffer : %s \n", str, buffer);
+		}
+	}
+	return (ft_strcut(str, &i));
+}
+
+char *get_next_line1(int fd)
+{
+	size_t			i;
+	char 			*temp;
+	char 			*str;
+	static char		buffer[BUFFER_SIZE + 1];
+
+	i = 0;
+	buffer[BUFFER_SIZE] = 0;
+	printf("strlen %zu \n",ft_strlen(buffer));
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!back_slach_in(buffer, &i))
+	//if (buffer[BUFFER_SIZE + 1] != 1)
+	{
+		//printf("[buffer]\n",buffer);
+		if (read(fd, buffer, BUFFER_SIZE) == -1)
+			return (NULL);
+	}
+	if (back_slach_in(buffer, &i))
+	{
+		return (ft_strcut(buffer, &i));
+	}
+	else
+	{
+		str = ft_strdup(buffer);
+		while (!back_slach_in(str, &i))
+		{
+			temp = ft_strdup(buffer);
+			if (read(fd, buffer, BUFFER_SIZE) == -1)
+			return (NULL);
+			//printf("avant str join : str : %s buffer : %s \n", str, buffer);
+			str = ft_strjoin(str, buffer);
+			//printf("apres str join : str : %s buffer : %s \n", str, buffer);
 		}
 	}
 	return (ft_strcut(str, &i));
@@ -200,7 +245,9 @@ int	main(int argc, char **argv)
 	//read(fd, buffer, BUFFER_SIZE);
 	//printf("%s \n", buffer); 
 	printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 /* 	buffer[BUFFER_SIZE] = 0;
