@@ -6,7 +6,7 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/21 22:26:49 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/25 15:59:32 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ char	*ft_substr(char  *s, unsigned int start, size_t len)
 	return (sub);
 }
 
+void	ft_strcopy(char *s1, char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s2[i])
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = '\0';
+}
+
 char	*ft_strcut(char  *s, size_t *i)
 {
 	size_t	j;
@@ -70,6 +83,8 @@ char	*ft_strcut(char  *s, size_t *i)
 	(*i)++;
 	sub[j++] = '\n';
 	sub[j] = '\0';
+	//printf("i = %zu , j = %zu \n",*i,j);
+	ft_strcopy(s , ft_substr(s, *i, BUFFER_SIZE));
 	return (sub);
 }
 
@@ -81,8 +96,10 @@ int	back_slach_in(char *s, size_t *j)
 	while (s[i])
 	{
 		if (s[i] == '\n')
+		{
 			return (1);
-		s++;
+		}
+		i++;
 	}
 	return (0);
 }
@@ -142,10 +159,15 @@ char *get_next_line(int fd)
 	buffer[BUFFER_SIZE] = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (read(fd, buffer, BUFFER_SIZE) == -1)
-		return (NULL);
+	if (!back_slach_in(buffer, &i))
+	{
+		if (read(fd, buffer, BUFFER_SIZE) == -1)
+			return (NULL);
+	}
 	if (back_slach_in(buffer, &i))
+	{
 		return (ft_strcut(buffer, &i));
+	}
 	else
 	{
 		str = ft_strdup(buffer);
@@ -165,20 +187,22 @@ int	main(int argc, char **argv)
 {
 	int fd;
 	//har *temp;
-	//static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[BUFFER_SIZE + 1];
+	char *str;
 	//size_t i = 0;
 
 	//buffer[BUFFER_SIZE] = 0;
 	fd = open(argv[1], O_RDONLY);
 	//read(fd, buffer, BUFFER_SIZE);
-	/* printf("----- \n");
-	
-	printf("%s \n", buffer);
-	read(fd, buffer, BUFFER_SIZE);
-	printf("%s \n", buffer); */
-
-	printf("p %s\n", get_next_line(fd));
-	printf("p %s\n", get_next_line(fd));
+	//printf("%s \n", buffer);
+	//str = ft_substr(buffer,5,BUFFER_SIZE);
+	//ft_strcopy(buffer , str);
+	//read(fd, buffer, BUFFER_SIZE);
+	//printf("%s \n", buffer); 
+	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
 /* 	buffer[BUFFER_SIZE] = 0;
 	read(fd, buffer, BUFFER_SIZE);
 	printf("%s \n", buffer);
