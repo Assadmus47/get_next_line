@@ -12,20 +12,6 @@
 
 #include "get_next_line.h"
 
-size_t	back_slach_in(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n')
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -36,38 +22,17 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
-	size_t	lens;
-	char	*sub;
-
-	if (!s)
-		return (NULL);
-	lens = ft_strlen(s);
-	if (len > lens - start)
-		len = lens - start;
-	sub = malloc((sizeof(char) * (len + 1)));
-	if (!sub)
-		return (NULL);
-	i = 0;
-	while (i < len)
-		sub[i++] = s[start++];
-	sub[i] = '\0';
-	return (sub);
-}
-
-void	ft_strcopy(char *s1, char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s2[i])
+	while (*s)
 	{
-		s1[i] = s2[i];
-		i++;
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-	s1[i] = '\0';
+	if (*s == (char)c)
+		return ((char *)s);
+	return (NULL);
 }
 
 char	*ft_strdup(const char *src)
@@ -88,6 +53,20 @@ char	*ft_strdup(const char *src)
 		i++;
 	}
 	return (copy);
+}
+
+char    *ft_strcpy(char *dest, const char *src)
+{
+    size_t	i;
+
+	i = 0;
+    while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+    return dest;
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

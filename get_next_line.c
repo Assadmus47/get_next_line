@@ -12,29 +12,46 @@
 
 #include "get_next_line.h"
 
-char *get_next_line1(int fd)
+char	*get_next_line(int fd)
 {
-	ssize_t			bytes;
-	size_t			bs_indx;
-	static char		buffer[BUFFER_SIZE + 1];
-	char			*str;
-	char			*temp;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
-		return (NULL);
-	str = malloc(sizeof(char) * (BUFFER_SIZE + 1));	
-	str[BUFFER_SIZE] = '\0';
-	if (buffer[0] != '\0')
-		strcopy(str, buffer);
-	bs_indx = back_slach_in(str);
-	while (bs_indx == 0)
+	static char buffer [BUFFER_SIZE + 1];
+	char		*line;
+	char		*tmp;
+	ssize_t		bytes;
+	int			i;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+    	return (NULL);
+	line = ft_strdup(buffer);
+    buffer[0] = '\0';
+	while (!ft_strchr(line, '\n'))
+    {
+        bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes < 0)
+        {
+            free(line);
+            buffer[0] = '\0';
+            return (NULL);
+        }
+        if (bytes == 0)
+            break;
+		buffer[bytes] = '\0';
+        tmp = ft_strjoin(line, buffer);
+        free(line);
+        line = tmp;
+    }
+	i = 0;
+	while (line[i] && line[i] != '\n')
+		i++;
+	if (line[i] == '\n')
 	{
-		
-		ft_strcopy(buffer, ft_substr(str, bs_indx + 1, BUFFER_SIZE));
-		bs_indx = back_slach_in(str);		
+		ft_strcpy(buffer, line + i + 1);
+		line[i + 1] = '\0';
 	}
-	return (ft_substr(str, 0, bs_indx));
-
+	if (line[0] == '\0')
+    {
+        free(line);
+        return (NULL);
+    }
+	return (line);
 }
-
-

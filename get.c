@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   get.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:29:37 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/27 14:40:20 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/27 16:39:17 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_strcut(char  *s, size_t *i)
 
 	if (!s)
 		return (NULL);
-	//s[BUFFER_SIZE + 1] = 1;
+	s[BUFFER_SIZE + 1] = 1;
 	j = *i;
 	lens = 0;
 	while (s[j] != '\n')
@@ -154,15 +154,16 @@ char *get_next_line(int fd)
 	size_t			i;
 	char 			*temp;
 	char 			*str;
-	static char		buffer[BUFFER_SIZE + 1];
+	static char		buffer[BUFFER_SIZE + 2];
 
 	i = 0;
 	buffer[BUFFER_SIZE] = 0;
-	printf("strlen %zu \n",ft_strlen(buffer));
+	//printf("%s\n", buffer);
+	//printf("strlen %zu \n",ft_strlen(buffer));
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!back_slach_in(buffer, &i))
-	//if (buffer[BUFFER_SIZE + 1] != 1)
+	//if (!back_slach_in(buffer, &i))
+	if (buffer[BUFFER_SIZE + 1] != 1)
 	{
 		//printf("[buffer]\n",buffer);
 		if (read(fd, buffer, BUFFER_SIZE) == -1)
@@ -207,9 +208,9 @@ int	main(int argc, char **argv)
 	//read(fd, buffer, BUFFER_SIZE);
 	//printf("%s \n", buffer); 
 	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 /* 	buffer[BUFFER_SIZE] = 0;
