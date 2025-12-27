@@ -12,111 +12,29 @@
 
 #include "get_next_line.h"
 
-char *get_next_line_write(int fd)
+char *get_next_line1(int fd)
 {
-	int		n;
-	char	*ret;
-	int		i;
-	static char	buffer[BUFFER_SIZE];
-	static char	buffer[BUFFER_SIZE];
-
-	ret = malloc(sizeof(char));
-	if (!problem_fd(fd))
-		return (NULL);
-	i = 0;
-	n = 1;
-	if (buffer[0] != '\n')
-		write(1, buffer, n);
-	while (n != 0)
-	{
-
-		n = read(fd, buffer, sizeof(buffer));
-		if (buffer[0] == '\n')
-		{
-			n = read(fd, buffer, sizeof(buffer));
-			break ;
-		}
-		if (write(1, buffer, n) == -1)
-		{
-			close(fd);
-			return (NULL);
-		}
-		i++;
-	}
-	write(1, "\n", 1);
-	free(ret);
-	return (ret);
-}
-
-char *get_next_line(int fd)
-{
-	int		n;
-	char	*ret;
-	int		i;
-	static char	buffer[BUFFER_SIZE];
-
+	ssize_t			bytes;
+	size_t			bs_indx;
+	static char		buffer[BUFFER_SIZE + 1];
+	char			*str;
+	char			*temp;
 	
-}
-
-/*
-char *get_next_line(int fd)
-{
-	char	*ret;
-	int		i;
-	static char	buffer[BUFFER_SIZE];
-	int		n;
-
-	if (!problem_fd(fd))
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
 		return (NULL);
-	i = 0;
-	n = 1;
-	if (buffer[0] != '\n')
-		write(1, buffer, n);
-	while (n != 0)
+	str = malloc(sizeof(char) * (BUFFER_SIZE + 1));	
+	str[BUFFER_SIZE] = '\0';
+	if (buffer[0] != '\0')
+		strcopy(str, buffer);
+	bs_indx = back_slach_in(str);
+	while (bs_indx == 0)
 	{
-
-		n = read(fd, buffer, sizeof(buffer));
-		if (buffer[0] == '\n')
-		{
-			n = read(fd, buffer, sizeof(buffer));
-			break ;
-		}
-		if (write(1, buffer, n) == -1)
-		{
-			close(fd);
-			return (NULL);
-		}
-		i++;
+		
+		ft_strcopy(buffer, ft_substr(str, bs_indx + 1, BUFFER_SIZE));
+		bs_indx = back_slach_in(str);		
 	}
-	write(1, "\n", 1);
-	free(ret);
-	return (ret);
-}
-*/
-/* int	problem_fd(int fd)
-{
-	return (fd < 0 || write(fd, "", 0) == -1);
+	return (ft_substr(str, 0, bs_indx));
+
 }
 
-int	main(int argc, char **argv)
-{
-	int		fd;
-	int		n;
-	char	buffer[1];
 
-	fd = open(argv[1], O_RDONLY);
-	if (problem_fd(fd))
-		return (1);
-	n = 1;
-	while (buffer[0] != '\n')
-	{
-		n = read(fd, buffer, sizeof(buffer));
-		if (write(1, buffer, 1) == -1)
-		{
-			close(fd);
-			return (1);
-		}
-	}
-	close(fd);
-	return (0);
-} */
