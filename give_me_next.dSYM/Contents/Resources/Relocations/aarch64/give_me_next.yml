@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     give_me_next
-relocations:     []
-...

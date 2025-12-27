@@ -11,6 +11,9 @@ test:
 clean:
 	rm $(NAME)
 
+fclean:clean
+		rm -f $(NAME)
+
 re:
 	test clean
 
@@ -19,4 +22,4 @@ git:
 	git commit -m "$(msg)"
 	git push
 
-.PHONY:	test clean re
+.PHONY:	test clean fclean re

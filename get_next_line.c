@@ -14,32 +14,32 @@
 
 char	*get_next_line(int fd)
 {
-	static char buffer [BUFFER_SIZE + 1];
+	static char	buffer	[BUFFER_SIZE + 1];
 	char		*line;
 	char		*tmp;
 	ssize_t		bytes;
 	int			i;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-    	return (NULL);
+		return (NULL);
 	line = ft_strdup(buffer);
-    buffer[0] = '\0';
+	buffer[0] = '\0';
 	while (!ft_strchr(line, '\n'))
-    {
-        bytes = read(fd, buffer, BUFFER_SIZE);
+	{
+		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
-        {
-            free(line);
-            buffer[0] = '\0';
-            return (NULL);
-        }
-        if (bytes == 0)
-            break;
+		{
+			free(line);
+			buffer[0] = '\0';
+			return (NULL);
+		}
+		if (bytes == 0)
+			break ;
 		buffer[bytes] = '\0';
-        tmp = ft_strjoin(line, buffer);
-        free(line);
-        line = tmp;
-    }
+		tmp = ft_strjoin(line, buffer);
+		free(line);
+		line = tmp;
+	}
 	i = 0;
 	while (line[i] && line[i] != '\n')
 		i++;
@@ -49,9 +49,9 @@ char	*get_next_line(int fd)
 		line[i + 1] = '\0';
 	}
 	if (line[0] == '\0')
-    {
-        free(line);
-        return (NULL);
-    }
+	{
+		free(line);
+		return (NULL);
+	}
 	return (line);
 }
