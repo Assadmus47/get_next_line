@@ -12,34 +12,43 @@
 
 #include "get_next_line.h"
 
+int	concatinate(int fd,char **line, char *buffer[BUFFER_SIZE + 1])
+{
+	ssize_t		bytes;
+	char		*tmp;
+
+	bytes = 0;
+	while (!ft_strchr(*line, '\n'))
+	{
+		bytes = read(fd, *buffer, BUFFER_SIZE);
+		if (bytes < 0)
+		{
+			free(*line);
+			*buffer[0] = '\0';
+			return (0);
+		}
+		if (bytes == 0)
+			break ;
+		*buffer[bytes] = '\0';
+		tmp = ft_strjoin(*line, *buffer);
+		free(*line);
+		*line = tmp;
+	}
+	return (1);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	buffer	[BUFFER_SIZE + 1];
 	char		*line;
-	char		*tmp;
-	ssize_t		bytes;
 	int			i;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	line = ft_strdup(buffer);
 	buffer[0] = '\0';
-	while (!ft_strchr(line, '\n'))
-	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes < 0)
-		{
-			free(line);
-			buffer[0] = '\0';
-			return (NULL);
-		}
-		if (bytes == 0)
-			break ;
-		buffer[bytes] = '\0';
-		tmp = ft_strjoin(line, buffer);
-		free(line);
-		line = tmp;
-	}
+	if (!concatinate(fd, &line, &buffer))
+		return (NULL);
 	i = 0;
 	while (line[i] && line[i] != '\n')
 		i++;
