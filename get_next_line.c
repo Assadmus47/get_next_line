@@ -25,11 +25,11 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 		{
 			free(*line);
 			buffer[0] = '\0';
+			//ret = 2;
 			return (0);
 		}
 		if (bytes == 0)
 		{
-			buffer	[BUFFER_SIZE + 1] = 1;
 			buffer[0] = '\0';
 			break ;
 		}
@@ -43,12 +43,10 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 
 char	*get_next_line(int fd)
 {
-	static char	buffer	[BUFFER_SIZE + 2];
+	static char	buffer	[BUFFER_SIZE + 1];
 	char		*line;
 	int			i;
 
-	if (buffer	[BUFFER_SIZE + 1] == 1)
-		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
 		buffer[0] = '\0';
