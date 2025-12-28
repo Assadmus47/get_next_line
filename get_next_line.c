@@ -28,7 +28,11 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 			return (0);
 		}
 		if (bytes == 0)
+		{
+			buffer	[BUFFER_SIZE + 1] = 1;
+			buffer[0] = '\0';
 			break ;
+		}
 		buffer[bytes] = '\0';
 		tmp = ft_strjoin(*line, buffer);
 		free(*line);
@@ -39,12 +43,17 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 
 char	*get_next_line(int fd)
 {
-	static char	buffer	[BUFFER_SIZE + 1];
+	static char	buffer	[BUFFER_SIZE + 2];
 	char		*line;
 	int			i;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (buffer	[BUFFER_SIZE + 1] == 1)
 		return (NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		buffer[0] = '\0';
+		return (NULL);
+	}
 	line = ft_strdup(buffer);
 	buffer[0] = '\0';
 	if (concatinate(fd, &line, buffer) == 0)
@@ -59,6 +68,7 @@ char	*get_next_line(int fd)
 	}
 	if (line[0] == '\0')
 	{
+		buffer[0] = '\0';
 		free(line);
 		return (NULL);
 	}

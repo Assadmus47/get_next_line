@@ -41,10 +41,9 @@ char	*ft_strdup(const char *src)
 	size_t	srclen;
 	size_t	i;
 
-	copy = NULL;
 	srclen = ft_strlen(src);
 	copy = malloc((sizeof(char) * srclen) + 1);
-	if (copy == NULL)
+	if (!copy)
 		return (NULL);
 	i = 0;
 	while (i <= srclen)
