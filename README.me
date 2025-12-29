@@ -1,0 +1,44 @@
+*This project has been created as part of the 42 curriculum by mkacemi.*
+
+# Get Next Line
+
+## Description
+The **Get Next Line** project consists of writing a function that reads a file descriptor line by line.  
+The main goal of this project is to implement a reliable and memory-safe function in C that can handle repeated calls to read text from files or standard input, returning one line at a time.  
+Each line returned includes the terminating `\n` character, except at the end of the file when it does not exist.  
+
+The project also includes a bonus part where the function can handle multiple file descriptors simultaneously using only one static variable.
+
+## Algorithm Explanation
+The function **get_next_line** uses a buffer-based reading approach:  
+
+1. **Static Storage**: A static variable stores the leftover content from previous reads. This allows continuity between calls.  
+2. **Reading in Chunks**: The `read()` function reads a fixed number of bytes (`BUFFER_SIZE`) from the file descriptor.  
+3. **Line Extraction**: If a newline character (`\n`) is found in the buffer or leftover content, the current line is extracted and returned.  
+4. **Updating Static Storage**: Remaining content after the newline is kept in the static variable for the next call.  
+5. **Memory Management**: Dynamic memory allocation ensures the function works efficiently without memory leaks.  
+
+This algorithm is chosen because it minimizes the number of reads, efficiently handles large files, and works correctly even if the `BUFFER_SIZE` is very small or very large.
+
+## Instructions
+
+### Files to Submit
+- Mandatory:
+  - `get_next_line.c`
+  - `get_next_line_utils.c`
+  - `get_next_line.h`
+- Bonus:
+  - `get_next_line_bonus.c`
+  - `get_next_line_utils_bonus.c`
+  - `get_next_line_bonus.h`
+- `main` must be created by the user to test the function.
+
+### Compilation
+To compile the project, you can use the following commands:
+
+```bash
+# Mandatory part (example with BUFFER_SIZE=42)
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl
+
+# Bonus part
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus
