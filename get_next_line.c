@@ -12,13 +12,13 @@
 
 #include "get_next_line.h"
 
-
-char	*free__and_clean(char *line, char *buffer)
+int	free_and_clean(char **line, char *buffer)
 {
-	if(buffer)
+	if (buffer)
 		buffer[0] = '\0';
-	free(line);
-	return (NULL);	
+	free(*line);
+	*line = NULL;
+	return (0);
 }
 
 int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
@@ -31,11 +31,7 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
-		{
-			free(*line);
-			buffer[0] = '\0';
-			return (0);
-		}
+			return (free_and_clean(line, buffer), 0);
 		if (bytes == 0)
 		{
 			buffer[0] = '\0';
@@ -44,10 +40,7 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 		buffer[bytes] = '\0';
 		tmp = ft_strjoin(*line, buffer);
 		if (!tmp)
-		{
-			free(*line);
-			return (0);
-		}
+			return (free_and_clean(line, NULL), 0);
 		free(*line);
 		*line = tmp;
 	}
@@ -77,7 +70,7 @@ int	line_next(char **line, char buffer[BUFFER_SIZE + 1])
 
 char	*get_next_line(int fd)
 {
-	static char	buffer	[BUFFER_SIZE + 1];
+	static char	buffer [BUFFER_SIZE + 1];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
@@ -95,3 +88,23 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (line);
 }
+
+/*#include "get_next_line.h"
+
+int	main(int argc, char **argv)
+{
+	int	fd;
+	size_t i = 1;
+	fd = open(argv[1], O_RDONLY);
+	(void)argc;
+	char *line = get_next_line(fd);
+	printf("[");
+	while(line)
+	{
+		printf("%zu",i++);
+		printf("%s",line);
+		line = get_next_line(fd);
+	}
+	printf("]");
+	close (fd);
+}*/
