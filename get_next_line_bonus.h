@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/29 16:52:22 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/29 16:54:58 by mkacemi          ###   ########.fr       */
+/*   Created: 2025/12/29 17:57:31 by mkacemi           #+#    #+#             */
+/*   Updated: 2025/12/29 17:58:01 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <fcntl.h> 
 # include <unistd.h>

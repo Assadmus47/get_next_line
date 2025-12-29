@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/29 16:52:43 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/29 17:49:34 by mkacemi          ###   ########.fr       */
+/*   Created: 2025/12/29 17:55:24 by mkacemi           #+#    #+#             */
+/*   Updated: 2025/12/29 17:57:19 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ char	*get_next_line(int fd)
 	static char	buffer [OPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= OPEN_MAX || OPEN_MAX > 1024)
+	if (fd < 0 || BUFFER_SIZE <= 0
+		|| read(fd, 0, 0) < 0 || fd > OPEN_MAX || OPEN_MAX > 1024)
 		return (NULL);
 	line = ft_strdup(buffer[fd]);
 	if (!line)
