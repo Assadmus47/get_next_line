@@ -6,7 +6,7 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 17:55:24 by mkacemi           #+#    #+#             */
-/*   Updated: 2025/12/29 18:01:09 by mkacemi          ###   ########.fr       */
+/*   Updated: 2025/12/29 18:18:34 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,4 @@ char	*get_next_line(int fd)
 	if (line_next(&line, buffer, fd) == 0)
 		return (NULL);
 	return (line);
-}
-#include "get_next_line.h"
-
-int	main(int argc, char **argv)
-{
-	int	fd;
-	size_t i = 1;
-	fd = open(argv[1], O_RDONLY);
-	(void)argc;
-	char *line = get_next_line(fd);
-	printf("[");
-	while(line)
-	{
-		printf("%zu",i++);
-		printf("%s",line);
-		line = get_next_line(fd);
-	}
-	printf("]");
-	close (fd);
 }
