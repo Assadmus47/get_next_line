@@ -49,7 +49,7 @@ int	concatinate(int fd, char **line, char buffer[BUFFER_SIZE + 1])
 
 int	line_next(char **line, char buffer[BUFFER_SIZE + 1])
 {
-	int			i;
+	size_t			i;
 
 	i = 0;
 	while ((*line)[i] && (*line)[i] != '\n')
@@ -73,7 +73,7 @@ char	*get_next_line(int fd)
 	static char	buffer [BUFFER_SIZE + 1];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		buffer[0] = '\0';
 		return (NULL);
@@ -94,17 +94,17 @@ char	*get_next_line(int fd)
 int	main(int argc, char **argv)
 {
 	int	fd;
-	size_t i = 1;
+	//size_t i = 1;
 	fd = open(argv[1], O_RDONLY);
 	(void)argc;
-	char *line = get_next_line(fd);
-	printf("[");
+	//char *line = get_next_line(fd);
+	//printf("[");
 	while(line)
 	{
-		printf("%zu",i++);
+		//printf("%zu",i++);
 		printf("%s",line);
 		line = get_next_line(fd);
 	}
-	printf("]");
+	//printf("]");
 	close (fd);
 }*/
