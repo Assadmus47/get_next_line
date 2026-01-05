@@ -32,15 +32,57 @@ This algorithm is chosen because it minimizes the number of reads, efficiently h
   - `get_next_line_utils_bonus.c`
   - `get_next_line_bonus.h`
 
-## NB
- `main` must be created by the user to test the function.
-
 ### Compilation
-To compile the project, you can use the following commands:
+**Note:** A `main.c` file must be created by the user to test the function.
 
+To compile the project with your own `main.c`:
 ```bash
 # Mandatory part (example with BUFFER_SIZE=42)
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl
 
 # Bonus part
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus
+```
+
+### Usage Example
+Example of a simple `main.c` for testing:
+```c
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int fd;
+    char *line;
+
+    fd = open("test.txt", O_RDONLY);
+    if (fd == -1)
+        return (1);
+    
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
+}
+```
+
+## Resources
+
+### Documentation and References
+- [Stack Overflow - Static variables in C](https://stackoverflow.com/questions/tagged/static+c): Used at the beginning of the project to understand how static variables work and maintain state between function calls
+
+### Collaboration and Support
+- **Peer assistance**: I received help and advice from my 42 colleagues throughout the project, particularly for debugging edge cases and discussing different implementation approaches.
+
+### AI Usage
+AI tools (Claude/ChatGPT) were used for the following tasks:
+- **Code review and debugging**: Identifying potential bugs, memory leaks, and edge cases in my implementation
+- **Algorithm optimization**: Discussing different approaches for buffer management and line extraction
+- **Concept clarification**: Explaining complex concepts related to file descriptors and system calls
+- **Documentation**: Proofreading and improving README structure and clarity
+
+All code was written manually by me. AI served as a learning assistant and debugging tool, similar to how one would use documentation or ask a mentor for guidance. No AI-generated code was directly copied into the final implementation.

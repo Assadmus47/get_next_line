@@ -6,7 +6,7 @@
 /*   By: mkacemi <mkacemi@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 17:55:24 by mkacemi           #+#    #+#             */
-/*   Updated: 2026/01/01 20:00:31 by mkacemi          ###   ########.fr       */
+/*   Updated: 2026/01/05 15:27:58 by mkacemi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ char	*get_next_line(int fd)
 	}
 	line = ft_strdup(buffer[fd]);
 	if (!line)
+	{
+		buffer[fd][0] = '\0';
 		return (NULL);
+	}
 	buffer[fd][0] = '\0';
 	if (concatinate(fd, &line, buffer) == 0)
 		return (NULL);

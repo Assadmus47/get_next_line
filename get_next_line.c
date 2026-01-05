@@ -80,7 +80,10 @@ char	*get_next_line(int fd)
 	}
 	line = ft_strdup(buffer);
 	if (!line)
+	{
+		buffer[0] = '\0';
 		return (NULL);
+	}
 	buffer[0] = '\0';
 	if (concatinate(fd, &line, buffer) == 0)
 		return (NULL);
